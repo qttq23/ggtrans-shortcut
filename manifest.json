@@ -1,0 +1,44 @@
+{
+	"name": "google translate shortcut",
+	"version": "1.0",
+	"description": "Build an Extension!",
+	"manifest_version": 2,
+
+	"permissions": ["declarativeContent", "activeTab", "clipboardRead", "clipboardWrite"],
+
+	"background": {
+		"scripts": ["background.js"],
+		"persistent": false
+	},
+	"page_action": {
+		"default_popup": "popup.html",
+		"default_icon": {
+			"16": "hello_extensions.png"
+		}
+	},
+
+	"commands": {
+		"paste-text": {
+			"suggested_key": {
+				"default": "Alt+S",
+				"mac": "Command+Shift+S"
+			},
+			"description": "focus textarea and paste clipboard's text"
+		},
+		"listen-text": {
+			"suggested_key": {
+				"default": "Alt+L",
+				"mac": "Command+Shift+L"
+			},
+			"description": "shortcut for listen button"
+		},
+		"focus-text": {
+			"suggested_key": {
+				"default": "Alt+A",
+				"mac": "Command+Shift+F"
+			},
+			"description": "focus and select all text"
+		}
+
+	}
+}
