@@ -2,43 +2,46 @@
 	"name": "google translate shortcut",
 	"version": "1.0",
 	"description": "Build an Extension!",
-	"manifest_version": 2,
+	"manifest_version": 3,
 
-	"permissions": ["declarativeContent", "activeTab", "clipboardRead", "clipboardWrite"],
+	"permissions": [
+		"declarativeContent", 
+		"activeTab",
+		"clipboardRead", 
+		"clipboardWrite",
+		"tabs",
+		"scripting",
+		"storage"
+	],
 
 	"background": {
-		"scripts": ["background.js"],
-		"persistent": false
+		"service_worker": "background.js"
 	},
-	"page_action": {
+
+	"content_scripts": [
+		{
+			"matches": ["https://translate.google.com/*"],
+			"js": ["contentScript.js"]
+		}
+	],
+
+	"action": {
 		"default_popup": "popup.html",
 		"default_icon": {
 			"16": "hello_extensions.png"
 		}
 	},
-
+	
 	"commands": {
-		"paste-text": {
+		"paste-text2": {
 			"suggested_key": {
-				"default": "Alt+S",
+				"default": "Alt+0",
 				"mac": "Command+Shift+S"
 			},
-			"description": "focus textarea and paste clipboard's text"
-		},
-		"listen-text": {
-			"suggested_key": {
-				"default": "Alt+L",
-				"mac": "Command+Shift+L"
-			},
-			"description": "shortcut for listen button"
-		},
-		"focus-text": {
-			"suggested_key": {
-				"default": "Alt+A",
-				"mac": "Command+Shift+F"
-			},
-			"description": "focus and select all text"
+			"description": "put here for sample code. not use"
 		}
 
-	}
+	},
+
+	"options_page": "option.html"
 }
