@@ -11,7 +11,8 @@
 		"clipboardWrite",
 		"tabs",
 		"scripting",
-		"storage"
+		"storage",
+		"contextMenus"
 	],
 
 	"background": {

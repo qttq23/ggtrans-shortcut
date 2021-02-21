@@ -15,11 +15,19 @@ console.log('contentScript.js: hello');
 let registerKeyList = null;
 
 // define handler
-function paste_text_handler(){
+function paste_text_handler(text){
 	let translateInputTextArea = document.querySelector("textarea.er8xn");
+
+	if(text){
+		translateInputTextArea.value = text;		
+		translateInputTextArea.select();
+		document.execCommand("copy");
+	}
+	
 	translateInputTextArea.value="";
 	translateInputTextArea.focus();
 	document.execCommand("paste");
+
 }
 
 
@@ -67,6 +75,7 @@ setInterval(loadCommandAndAssignHanlder, 3000);
 document.addEventListener('keydown', function(event) {
 
 	console.log('contentScript.js: keydown');
+	console.log(event);
 	for(let item of registerKeyList){
 
 		/// eg:  if (event.ctrlKey && event.key === 'z') 
@@ -77,22 +86,10 @@ document.addEventListener('keydown', function(event) {
 		}
 	}
 
-
-	// // forward keyevent to background to check and execute command
-	// chrome.runtime.sendMessage({
-		// 	from: 'contentScript.js',
-		// 	keyEvent: {
-			// 		altKey: event.altKey,
-			// 		shiftKey: event.shiftKey,
-			// 		ctrlKey: event.ctrlKey,
-			// 		key: event.key
-			// 	}
-			// }, null);
-
-		});
+});
 
 
-// also listen message from extension's popup
+// also listen message from background and popup
 chrome.runtime.onMessage.addListener(
 	function(message, sender, sendResponse) {
 		console.log(sender.tab ?
@@ -102,7 +99,14 @@ chrome.runtime.onMessage.addListener(
 		for(let item of registerKeyList){
 			if (message.command === item.command) {
 				console.log(item.description);
-				item.handler();
+
+				if(message.data){
+					item.handler(message.data);
+				}
+				else{
+					item.handler();
+				}
+
 				break;
 			}
 		}
